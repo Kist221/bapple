@@ -1,19 +1,17 @@
-DROP DATABASE IF EXISTS top_songsDB;
-CREATE database top_songsDB;
+-- if exist - delete DB
+DROP DATABASE IF EXISTS bapple;
+-- create NEW DB 
+CREATE database bapple;
 
-USE top_songsDB;
+USE bapple;
 
-CREATE TABLE top5000 (
-  position INT NOT NULL,
-  artist VARCHAR(100) NULL,
-  song VARCHAR(100) NULL,
-  year INT NULL,
-  raw_total DECIMAL(10,4) NULL,
-  raw_usa DECIMAL(10,4) NULL,
-  raw_uk DECIMAL(10,4) NULL,
-  raw_eur DECIMAL(10,4) NULL,
-  raw_row DECIMAL(10,4) NULL,
-  PRIMARY KEY (position)
+CREATE TABLE products (
+  item_id INT NOT NULL,
+  product_name VARCHAR(100) NOT NULL,
+  department_name VARCHAR(100) NULL,
+  price DECIMAL(10,2) NOT NULL,
+  stock_quantity INT NOT NULL,
+  PRIMARY KEY (item_id)
 );
 
-SELECT * FROM top5000;
+SELECT * FROM products;
