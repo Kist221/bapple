@@ -1,0 +1,33 @@
+{
+  "name": "bapple",
+  "version": "2.2.1",
+  "description": "This is bapple, not bamazon. A node application to purchase fake and cheap Apple products.",
+  "main": "bapple.js",
+  "scripts": {
+    "test": "NA"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kist221/bapple.git"
+  },
+  "keywords": [
+    "Apple",
+    "Node",
+    "NPM",
+    "Git",
+    "Inquirer",
+    "MySQL",
+    "DB",
+    "Kist221"
+  ],
+  "author": "Kist221",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Kist221/bapple/issues"
+  },
+  "homepage": "https://github.com/Kist221/bapple#readme",
+  "dependencies": {
+    "inquire": "^0.4.8",
+    "mysql": "^2.15.0"
+  }
+}
