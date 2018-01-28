@@ -27,7 +27,7 @@
   },
   "homepage": "https://github.com/Kist221/bapple#readme",
   "dependencies": {
-    "inquire": "^0.4.8",
+    "inquirer": "^5.0.1",
     "mysql": "^2.15.0"
   }
 }
