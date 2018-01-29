@@ -73,26 +73,28 @@ function quantityChoice(id) {
       var query = "SELECT * FROM products WHERE item_id = ?";
       connection.query(query, [id], function (error, res, fields) {
         if (error) throw error;
-        if (answers.quantity > res[0].stock) {
+        var amount = answers.quantity;
+        if (amount > res[0].stock) {
           console.log("\nInsufficient stock to fulfill this order!");
-          console.log("\nRequested: " + answers.quantity);
+          console.log("\nRequested: " + amount);
           console.log("\nIn Stock: " + res[0].stock);
         } else {
           console.log("\nOrder recieved!");
           console.log("ID: " + res[0].item_id + " | " + res[0].product_name + " | " + "Price: $" + res[0].price);
-          console.log("Requested quantity: * " + answers.quantity);
-          console.log("Your total amounts to: $" + res[0].price * answers.quantity)
+          console.log("Requested quantity: * " + amount);
+          console.log("Your total amounts to: $" + res[0].price * amount)
+          stockDeduct(id, amount);
         }
       });
   });
 };
 
 // function to deduct quantity from stock
-function stockDeduct(id) {
-  var query = "SELECT * FROM products WHERE item_id = ?";
-  connection.query(query, [id], function (error, res, fields) {
+function stockDeduct(id, amount) {
+  var query = "UPDATE products SET ? WHERE ?";
+  connection.query(query, [{quantity: quantity - amount}, {item_id: id}], function (error, res, fields) {
     if (error) throw error;
-
+    console.log(res);
   });
 };
 
