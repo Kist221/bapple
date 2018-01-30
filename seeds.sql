@@ -1,4 +1,4 @@
-INSERT INTO products (item_id, product_name, department_name, price, stock_quantity)
+INSERT INTO products (item_id, product_name, department_name, price, stock)
 VALUES 
 (001, "iMac", "Computers", 499, 25),
 (002, "iPod", "Music", 49, 100),

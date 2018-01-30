@@ -48,9 +48,9 @@ function findItem(id) {
   var query = "SELECT * FROM products WHERE item_id = ?";
   connection.query(query, [id], function (error, res, fields) {
     if (error) throw error;
-    if (res.length !== 0) {
+    if (res.length !== 0 && res[0].stock > 0) {
       console.log("\nsearching...")
-      console.log("\nID: " + res[0].item_id + " | " + res[0].product_name + " | " + "Price: $" + res[0].price + "\n");
+      console.log("\nID: " + res[0].item_id + " | " + res[0].product_name + " | Price: $" + res[0].price + " | Stock: " + res[0].stock + "\n");
       quantityChoice(id);
     } else {
       console.log("\nsearching...")
@@ -74,29 +74,54 @@ function quantityChoice(id) {
       connection.query(query, [id], function (error, res, fields) {
         if (error) throw error;
         var amount = answers.quantity;
-        if (amount > res[0].stock) {
+        var stock = res[0].stock;
+        if (amount < 1 || amount % 1 !== 0) {
+          console.log("\nPlease input valid quantity.\n");
+          quantityChoice(id);
+        } else if (amount > stock) {
           console.log("\nInsufficient stock to fulfill this order!");
-          console.log("\nRequested: " + amount);
-          console.log("\nIn Stock: " + res[0].stock);
+          console.log("Requested: " + amount);
+          console.log("In Stock: " + stock);
+          console.log('');
+          quantityChoice(id);
         } else {
-          console.log("\nOrder recieved!");
+          console.log("\n-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-\n");
+          console.log("Order recieved!");
           console.log("ID: " + res[0].item_id + " | " + res[0].product_name + " | " + "Price: $" + res[0].price);
           console.log("Requested quantity: * " + amount);
-          console.log("Your total amounts to: $" + res[0].price * amount)
-          stockDeduct(id, amount);
+          console.log("Your total amounts to: $" + res[0].price * amount);
+          console.log("\n-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-\n");
+          var deduct = stock - amount;
+          stockDeduct(id, deduct);
         }
       });
   });
 };
 
 // function to deduct quantity from stock
-function stockDeduct(id, amount) {
+function stockDeduct(id, deduct) {
   var query = "UPDATE products SET ? WHERE ?";
-  connection.query(query, [{quantity: quantity - amount}, {item_id: id}], function (error, res, fields) {
+  connection.query(query, [{stock: deduct}, {item_id: id}], function (error, res, fields) {
     if (error) throw error;
-    console.log(res);
+    continueShopping();
   });
 };
 
+// function asks for itemID choice
+function continueShopping() {
+  inquirer.prompt([
+     {
+       type: "confirm",
+       message: "Would you like to continue shopping?",
+       name: "continue"
+     }
+    ]).then(answers => {
+      if (answers.continue) {
+        listProducts();
+      } else {
+        console.log("\nBYE!\n");
+      }
+  });
+};
 
 listProducts();
