@@ -20,7 +20,7 @@ function listProducts() {
     if (res.length !== 0) {
       console.log("\nChecking Stock...")
       for (var i = 0; i < res.length; i++) {
-        console.log("\nID: " + res[i].item_id + " | " + res[i].product_name + " | " + "Price: $" + res[i].price);
+        console.log("\nID: " + res[i].item_id + " | " + res[i].product_name + " | Price: $" + res[i].price);
       }
       console.log();
       productChoice();
@@ -87,7 +87,7 @@ function quantityChoice(id) {
         } else {
           console.log("\n-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-\n");
           console.log("Order recieved!");
-          console.log("ID: " + res[0].item_id + " | " + res[0].product_name + " | " + "Price: $" + res[0].price);
+          console.log("ID: " + res[0].item_id + " | " + res[0].product_name + " | Price: $" + res[0].price);
           console.log("Requested quantity: * " + amount);
           console.log("Your total amounts to: $" + res[0].price * amount);
           console.log("\n-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-\n");
@@ -124,4 +124,5 @@ function continueShopping() {
   });
 };
 
-listProducts();
+// export just in case
+module.exports = listProducts;
