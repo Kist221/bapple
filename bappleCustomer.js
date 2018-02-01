@@ -20,7 +20,7 @@ function listProducts() {
     if (res.length !== 0) {
       console.log("\nChecking Stock...")
       for (var i = 0; i < res.length; i++) {
-        console.log("\nID: " + res[i].item_id + " | " + res[i].product_name + " | Price: $" + res[i].price);
+        console.log("\nID: " + res[i].item_id + " | " + res[i].product + " | Price: $" + res[i].price);
       }
       console.log();
       productChoice();
@@ -50,7 +50,7 @@ function findItem(id) {
     if (error) throw error;
     if (res.length !== 0 && res[0].stock > 0) {
       console.log("\nsearching...")
-      console.log("\nID: " + res[0].item_id + " | " + res[0].product_name + " | Price: $" + res[0].price + " | Stock: " + res[0].stock + "\n");
+      console.log("\nID: " + res[0].item_id + " | " + res[0].product + " | Price: $" + res[0].price + " | Stock: " + res[0].stock + "\n");
       quantityChoice(id);
     } else {
       console.log("\nsearching...")
@@ -87,7 +87,7 @@ function quantityChoice(id) {
         } else {
           console.log("\n-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-\n");
           console.log("Order recieved!");
-          console.log("ID: " + res[0].item_id + " | " + res[0].product_name + " | Price: $" + res[0].price);
+          console.log("ID: " + res[0].item_id + " | " + res[0].product + " | Price: $" + res[0].price);
           console.log("Requested quantity: * " + amount);
           console.log("Your total amounts to: $" + res[0].price * amount);
           console.log("\n-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-\n");
@@ -123,6 +123,8 @@ function continueShopping() {
       }
   });
 };
+
+listProducts();
 
 // export just in case
 module.exports = listProducts;

@@ -32,7 +32,7 @@ function managerMenu() {
     	} else if (answers.choice === "Add Inventory") {
     		productChoice();
     	} else if (answers.choice === "Add New Product") {
-    		
+    		newDetails();
     	} else if (answers.choice === "EXIT") {
     		console.log("\nBYE!\n");
     	} else {
@@ -48,7 +48,7 @@ function listProducts() {
     if (error) throw error;
 	console.log("\nChecking Stock...");
 	for (var i = 0; i < res.length; i++) {
-	  console.log("\nID: " + res[i].item_id + " | " + res[i].product_name + " | Price: $" + res[i].price + " | Stock: " + res[i].stock);
+	  console.log("\nID: " + res[i].item_id + " | " + res[i].product + " | Price: $" + res[i].price + " | Stock: " + res[i].stock);
 	}
 	console.log();
     managerMenu();
@@ -66,7 +66,7 @@ function lowInventory() {
       console.log("\nChecking Stock...");
       console.log("\nLow Inventory:")
       for (var i = 0; i < res.length; i++) {
-        console.log("\nID: " + res[i].item_id + " | " + res[i].product_name + " | Price: $" + res[i].price + " | Stock: " + res[i].stock);
+        console.log("\nID: " + res[i].item_id + " | " + res[i].product + " | Price: $" + res[i].price + " | Stock: " + res[i].stock);
       }
       console.log();
     } else {
@@ -97,7 +97,7 @@ function findItem(id) {
     if (error) throw error;
     if (res.length !== 0) {
       console.log("\nsearching...")
-      console.log("\nID: " + res[0].item_id + " | " + res[0].product_name + " | Stock: " + res[0].stock + "\n");
+      console.log("\nID: " + res[0].item_id + " | " + res[0].product + " | Stock: " + res[0].stock + "\n");
       quantityChoice(id);
     } else {
       console.log("\nsearching...")
@@ -127,7 +127,7 @@ function quantityChoice(id) {
         } else {
           console.log("\n-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-\n");
           console.log("Stock Added!");
-          console.log("ID: " + res[0].item_id + " | " + res[0].product_name);
+          console.log("ID: " + res[0].item_id + " | " + res[0].product);
           console.log("Previous: " + stock)
           console.log("Added: +" + amount);
           console.log("Current Inventory: " + (+stock + +amount));
@@ -148,7 +148,45 @@ function stockAdd(id, add) {
   });
 };
 
+// function asks for new item specs
+function newDetails() {
+  inquirer.prompt([
+     {
+       type: "input",
+       message: "Enter name of new product:",
+       name: "name"
+     },
+     {
+       type: "input",
+       message: "Enter price of new product: $",
+       name: "price"
+     },
+     {
+       type: "list",
+       message: "Select department of new product:",
+       choices: ["Computers", "Handheld", "Music", "Other"],
+       name: "dept"
+     },
+     {
+       type: "input",
+       message: "Enter amount of new product inventory:",
+       name: "stock"
+     },
+    ]).then(answers => {
+      console.log(answers);
+      newItem(answers.name, answers.price, answers.dept, answers.stock);
+  });
+};
 
+// function to add quantity to stock
+function newItem(name, price, dept, stock) {
+  var query = "INSERT INTO products SET ?";
+  var item = {product: name, price: price, department: dept, stock: stock};
+  connection.query(query, item, function (error, res, fields) {
+    if (error) throw error;
+    managerMenu();
+  });
+};
 
 // invoke the MANAGER PROGRAM!!!
 managerMenu();
